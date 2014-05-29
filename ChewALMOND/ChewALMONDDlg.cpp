@@ -99,17 +99,17 @@ void CChewALMONDDlg::OnBnClickedButton1()
 
 void CChewALMONDDlg::OnBnClickedButton2()
 {
-	almondLog(0, "char*: %s", "apple");
+	almondLog(1, "char*: %s", "apple");
 }
 
 
 void CChewALMONDDlg::OnBnClickedButton3()
 {
-	almondLog(0, "int: %d", 42);
+	almondLog(2, "int: %d", 42);
 }
 
 
 void CChewALMONDDlg::OnBnClickedButton4()
 {
-	almondLog(0, "16: %x", 42);
+	almondLog(3, "16: %x", 42);
 }

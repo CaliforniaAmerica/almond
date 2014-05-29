@@ -87,10 +87,18 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pc, ...)
 
 	switch (iLevel)
 	{
-	case 0:
+	case 3:
+		LOG(FATAL) << strLog;
+		break;
+	case 2:
+		LOG(WARNING) << strLog;
+		break;
+	case 1:
 		LOG(INFO) << strLog;
 		break;
+	case 0:		
 	default:
+		LOG(DEBUG) << strLog;
 		break;
 	}
 
