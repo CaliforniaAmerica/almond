@@ -7,6 +7,7 @@
 #include "g2log\g2log.h"
 
 g2LogWorker* pg2log = nullptr;
+const int ERRORCODEMAXLENGTH = 256;
 
 extern "C" __declspec(dllexport) void initMod(void)
 {
@@ -14,49 +15,66 @@ extern "C" __declspec(dllexport) void initMod(void)
 	g2::initializeLogging(pg2log);
 }
 
-extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pc, ...)
+extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat, ...)
 {
 	char*   pArg = NULL;
 	char   c;
 
-	pArg = (char*)&pc;
-	pArg += sizeof(pc);
+	pArg = (char*)&pcFormat;
+	pArg += sizeof(pcFormat);
 
 	string strLog = "";
 
-	do
-	{
-		c = *pc;
+	do{
+		c = *pcFormat;
 		if (c != '%')
 		{
-			//putchar(c);   //照原样输出字符 
+			//putchar(c);   //
 			strLog += c;
 		}
 		else
 		{
-			//按格式字符输出数据 
-			switch (*++pc)
+			//
+			switch (*++pcFormat)
 			{
-			case 'i':
-			case   'd':
+			case	'n':
+			case	'i':
+			case	'd':
 			{
 				//printf("%d", *((int*)pArg));
-				int IntDec = *((int*)pArg);
-				//strLog += strArg;
-				char* cInt = new char[256];
-				_itoa_s(IntDec, cInt, 256, 10);
+				int   intDec = *((int*)pArg);
+				char* cInt   = new char[ERRORCODEMAXLENGTH];
+				memset(cInt, 0, ERRORCODEMAXLENGTH);
+				int iRet = _itoa_s(intDec, cInt, ERRORCODEMAXLENGTH, 10);
+				LOG_IF(WARNING, (iRet != 0), "last _itoa_s radix %d, return: %d", 10, iRet);
 				strLog += cInt;
+				delete cInt;
 			}
 				break;
-			case   'f':
-				printf("%f", *((int*)pArg));
-				break;
-			case   'p':
-				printf("%p", *((int*)pArg));
-				break;
-			case   's':
+
+			case	'f':
 			{
-				printf("%s", *((int*)pArg));
+				printf("%f\n", *((double*)pArg));
+				double dFloat = *((double*)pArg);
+				char* cFloat = new char[ERRORCODEMAXLENGTH];
+				memset(cFloat, 0, ERRORCODEMAXLENGTH);
+				int iRet = _gcvt_s(cFloat, ERRORCODEMAXLENGTH, dFloat, 10);
+				LOG_IF(WARNING, (iRet != 0), "last _gcvt_s radix %d, return: %d", 10, iRet);
+				strLog += cFloat;
+				delete cFloat;
+			}
+				break;
+
+			case	'p':
+			{
+				//printf("%p", *((int*)pArg));
+				void * pPoint = pArg;
+			}
+				break;
+
+			case	's':
+			{
+				//printf("%s", *((int*)pArg));
 				/*char* newPc = new char[strlen(pArg)];
 				strncpy(newPc, pArg, strlen(pArg));
 				strLog += newPc;*/
@@ -64,16 +82,32 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pc, ...)
 				strLog += strString;
 			}
 				break;
-			case   'u':
-				printf("%u", *((int*)pArg));
+
+			case	'u':
+				//printf("%u", *((int*)pArg));
+			{
+				unsigned int uiDec = *((unsigned int*)pArg);
+				char* cInt = new char[ERRORCODEMAXLENGTH];
+				memset(cInt, 0, ERRORCODEMAXLENGTH);
+				int iRet = _itoa_s(uiDec, cInt, ERRORCODEMAXLENGTH, 10);
+				LOG_IF(WARNING, (iRet != 0), "last _itoa_s radix %d, return: %d", 10, iRet);
+				strLog += cInt;
+				delete cInt;
+			}
 				break;
-			case   'x':
+
+			case	'x':
+			case	'X':
 			{
 				//printf("%#x", *((int*)pArg));
 				int IntHex = *((int*)pArg);
-				char* cInt = new char[256];
-				_itoa_s(IntHex, cInt, 256, 16);
+				char* cInt = new char[ERRORCODEMAXLENGTH];
+				memset(cInt, 0, ERRORCODEMAXLENGTH);
+				int iRet = _itoa_s(IntHex, cInt, ERRORCODEMAXLENGTH, 16);
+				LOG_IF(WARNING, (iRet != 0), "last _itoa_s radix %d, return: %d", 16, iRet);
+				strLog += "0x";
 				strLog += cInt;
+				delete cInt;
 			}
 				break;
 			default:
@@ -81,8 +115,8 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pc, ...)
 			}
 			pArg += sizeof(int);   //等价于原来的va_arg 
 		}
-		++pc;
-	} while (*pc != '\0');
+		++pcFormat;
+	} while (*pcFormat != '\0');
 	pArg = NULL;   //等价于va_end 
 
 	switch (iLevel)

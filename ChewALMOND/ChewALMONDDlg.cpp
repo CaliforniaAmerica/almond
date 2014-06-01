@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CChewALMONDDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON2, &CChewALMONDDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CChewALMONDDlg::OnBnClickedButton3)
 	ON_BN_CLICKED(IDC_BUTTON4, &CChewALMONDDlg::OnBnClickedButton4)
+	ON_BN_CLICKED(IDC_BUTTON5, &CChewALMONDDlg::OnBnClickedButton5)
 END_MESSAGE_MAP()
 
 
@@ -112,4 +113,12 @@ void CChewALMONDDlg::OnBnClickedButton3()
 void CChewALMONDDlg::OnBnClickedButton4()
 {
 	almondLog(3, "16: %x", 42);
+}
+
+
+void CChewALMONDDlg::OnBnClickedButton5()
+{
+	almondLog(1, "float: %f", 3.14f);
+	almondLog(1, "unsigned int: %u", 12345);
+	almondLog(1, "hex: %X", 0x123);
 }
