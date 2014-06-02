@@ -40,9 +40,11 @@ BOOL WINAPI HandlerRoutine(DWORD dwCtrlType)//  control signal type
 void ShowDebug(void)
 {
 	AllocConsole();
+	SetConsoleTitle(_T("Debug Output"));
 	//_tfreopen(_T("CON"), _T("w"), stdout);
 	//freopen("CON", "wt", stdout);
-	//freopen_s("CON", "wt", stdout);
+	FILE* pf;
+	freopen_s(&pf, "CON", "wt", stdout);
 	setlocale(LC_ALL, NULL);
 	SetConsoleCtrlHandler(HandlerRoutine, TRUE);
 }

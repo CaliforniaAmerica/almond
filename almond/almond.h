@@ -23,7 +23,7 @@ extern "C" __declspec(dllexport) void initMod(void);
 	@param iLevel 1	INFO
 	@param iLevel 0	DEBUG
 
-	@param pcFormat Format control. 
+	@param pcFormat Format control, only recognise one char 4 now
 	@argument Optional arguments. 
 
  */
