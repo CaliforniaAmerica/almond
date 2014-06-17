@@ -1,5 +1,5 @@
 /*
- * Filename:almond.h	AMLOND is an Asynchronous Logging Mod of NT Dll, base on [g2log]
+ * Filename:almond.h	Asynchronous Logging Mod, O N D
  * Created : 2014 by lost.Fox L
  */
 
@@ -28,7 +28,5 @@ extern "C" __declspec(dllexport) void initMod(void);
 
  */
 extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat, ...);
-
-//TODO log stream
 
 #endif
