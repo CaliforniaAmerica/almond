@@ -29,4 +29,6 @@ extern "C" __declspec(dllexport) void initMod(void);
  */
 extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat, ...);
 
+//TODO log stream
+
 #endif
