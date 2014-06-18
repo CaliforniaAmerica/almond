@@ -118,7 +118,8 @@ void CChewALMONDDlg::OnBnClickedButton4()
 
 void CChewALMONDDlg::OnBnClickedButton5()
 {
-	almondLog(1, "float: %f", 3.14f);
-	almondLog(1, "unsigned int: %u", 12345);
-	almondLog(1, "hex: %X", 0x123);
+	//alogf(1, "", );
+	const int i = 42;
+	printf("i address:%#p\n", &i);
+	almondLog(1, "point: %p", &i);
 }
