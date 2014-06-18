@@ -54,7 +54,7 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat
 
 			case	'f':
 			{
-				//printf("%f\n", *((double*)pArg));
+				printf("%f\n", *((double*)pArg));
 				double dFloat = *((double*)pArg);
 				char* cFloat = new char[ERRORCODEMAXLENGTH];
 				memset(cFloat, 0, ERRORCODEMAXLENGTH);
@@ -69,7 +69,6 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat
 			{
 				//printf("%p", *((int*)pArg));
 				void * pPoint = pArg;
-				printf("%#p\n", *((int*)pPoint));	//UNDONE log point
 			}
 				break;
 
@@ -131,7 +130,7 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat
 	case 1:
 		LOG(INFO) << strLog;
 		break;
-	case 0:
+	case 0:		
 	default:
 		LOG(DEBUG) << strLog;
 		break;
@@ -143,18 +142,4 @@ extern "C" __declspec(dllexport) void almondLog(int iLevel, const char* pcFormat
 	LOGF(FATAL, "This %s is FATAL. After log flush -> Abort()", "message");
 	// or using the stream API
 	LOG(FATAL) << "This message is FATAL. After log flush -> Abort()";*/
-}
-
-extern "C" __declspec(dllexport) void alogf(int iLevel, const char* pcFormat, ...)
-{
-	va_list list;
-	va_start(list, pcFormat);	///<list被初始化为指向pcFormat后的第一个参数
-
-	//for (int i = 1; i{
-	//	//将变量x所指向的int类型的值赋给y,同时使x指向下一个参数
-	//	int y = va_arg(x, int);
-	//	if (y>m)m = y;
-	//}
-
-	va_end(list);
 }
